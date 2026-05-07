@@ -217,11 +217,11 @@ class AdobeHeartbeatProvider extends BaseProvider
                 "name": "App/Device ID",
                 "group": "visitorID"
             },
-            "params.analytics.optOutServerSideForwarding	": {
+            "params.analytics.optOutServerSideForwarding": {
                 "name": "Analytics Server-Side Opt Out",
                 "group": "visitorID"
             },
-            "params.analytics.optOutShare	": {
+            "params.analytics.optOutShare": {
                 "name": "Analytics Federated Opt Out",
                 "group": "visitorID"
             },
@@ -514,7 +514,7 @@ class AdobeHeartbeatProvider extends BaseProvider
             }
         } else {
             // Media SDK v1/v2
-            event = params.get("s:event:type");
+            event = params.get("s:event:type") || "";
             account = params.get("s:sc:rsid");
         }
 

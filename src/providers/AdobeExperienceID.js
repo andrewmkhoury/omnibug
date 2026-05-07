@@ -101,6 +101,11 @@ class AdobeExperienceIDProvider extends BaseProvider
             "value": accountID,
             "hidden": true
         });
+        results.push({
+            "key":   "omnibug_requestType",
+            "value": "ID Lookup",
+            "hidden": true
+        });
         return results;
     }
 }

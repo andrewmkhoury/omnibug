@@ -424,8 +424,10 @@ class AdobeAnalyticsProvider extends BaseProvider
         if (typeof postData === "string" && postData !== "") {
             let keyPairs = postData.split("&");
             keyPairs.forEach((keyPair) => {
-                let splitPair = keyPair.split("=");
-                params.push([splitPair[0], decodeURIComponent(splitPair[1] || "")]);
+                let eqIdx = keyPair.indexOf("=");
+                let key = eqIdx !== -1 ? keyPair.slice(0, eqIdx) : keyPair;
+                let val = eqIdx !== -1 ? keyPair.slice(eqIdx + 1) : "";
+                params.push([key, decodeURIComponent(val)]);
             });
         } else if (typeof postData === "object") {
             Object.entries(postData).forEach((entry) => {

@@ -11,7 +11,7 @@ class AdobeLaunchCNProvider extends BaseProvider
     {
         super();
         this._key        = "ADOBELAUNCH_CN";
-        this._pattern    = /assets\.adoberesources\.cn(?:\/[^?#;]+)?\/launch-[^?#]+.js/;
+        this._pattern    = /assets\.adoberesources\.cn(?:\/[^?#;]+)?\/launch-[^?#]+\.js/;
         this._name       = "Adobe Launch China Node";
         this._type       = "tagmanager";
         this._keywords   = ["activate", "activation", "tms"];

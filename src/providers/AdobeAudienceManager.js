@@ -161,8 +161,13 @@ class AdobeAudienceManagerProvider extends BaseProvider
         // Force Adobe's path into query strings
         if(url.pathname.indexOf("/ibs:") === 0) {
             url.pathname.replace("/ibs:", "").split("&").forEach(param => {
-                let pair = param.split("=");
-                params.append(pair[0], pair[1]);
+                let eqIdx = param.indexOf("=");
+                if(eqIdx !== -1) {
+                    params.append(
+                        decodeURIComponent(param.slice(0, eqIdx)),
+                        decodeURIComponent(param.slice(eqIdx + 1))
+                    );
+                }
             });
         }
         for(let param of params)
@@ -210,7 +215,7 @@ class AdobeAudienceManagerProvider extends BaseProvider
                 "key":   name,
                 "field": name,
                 "value": value,
-                "group": "custom"
+                "group": "customer"
             };
         } else if(/^p_(.+)$/i.test(name)) {
             result = {
@@ -243,7 +248,7 @@ class AdobeAudienceManagerProvider extends BaseProvider
     handleCustom(url, params)
     {
         let results = [],
-            accountID = url.hostname.replace(/^(dpm)?\.demdex.net/i, ""),
+            accountID = url.hostname.replace(/\.demdex\.net$/i, "").replace(/^dpm\./i, ""),
             requestType = url.pathname.match(/^\/([^?/#:]+)/);
         results.push({
             "key":   "omnibug_account",
