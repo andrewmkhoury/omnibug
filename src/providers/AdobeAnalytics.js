@@ -213,7 +213,7 @@ class AdobeAnalyticsProvider extends BaseProvider
                 "name": "Marketing Cloud Visitor ID",
                 "group": "general"
             },
-            "mcorgid ": {
+            "mcorgid": {
                 "name": "Marketing Cloud Org ID",
                 "group": "general"
             },
