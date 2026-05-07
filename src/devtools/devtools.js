@@ -30,7 +30,13 @@
                         queuedMessages.push(msg);
                     }
                 });
-                port.onDisconnect.addListener(connectPort);
+                // Reconnect immediately on disconnect so the service worker re-registers
+                // the tab before any in-flight requests arrive
+                port.onDisconnect.addListener(() => {
+                    // Use setTimeout(0) to yield to any final pending onMessage callbacks
+                    // before tearing down and reconnecting
+                    setTimeout(connectPort, 0);
+                });
             }
             connectPort();
 

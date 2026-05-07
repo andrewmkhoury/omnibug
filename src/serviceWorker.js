@@ -131,7 +131,15 @@ chrome.webRequest.onBeforeRequest.addListener(
                 data,
                 providerData
             );
-            tabs[details.tabId].postMessage(finalData);
+            // Guard against the port being disconnected between validProviderRequest and here
+            if (tabs[details.tabId]) {
+                try {
+                    tabs[details.tabId].postMessage(finalData);
+                } catch(e) {
+                    console.warn(`Failed to postMessage to tab ${details.tabId}:`, e.message);
+                    delete tabs[details.tabId];
+                }
+            }
         });
 
     },
@@ -153,7 +161,14 @@ chrome.webRequest.onHeadersReceived.addListener(
             "event": "requestError"
         };
 
-        tabs[details.tabId].postMessage(data);
+        if (tabs[details.tabId]) {
+            try {
+                tabs[details.tabId].postMessage(data);
+            } catch(e) {
+                console.warn(`Failed to postMessage to tab ${details.tabId}:`, e.message);
+                delete tabs[details.tabId];
+            }
+        }
     },
     { urls: ["<all_urls>"]}
 );
@@ -172,7 +187,14 @@ chrome.webRequest.onErrorOccurred.addListener(
             "event": "requestError"
         };
 
-        tabs[details.tabId].postMessage(data);
+        if (tabs[details.tabId]) {
+            try {
+                tabs[details.tabId].postMessage(data);
+            } catch(e) {
+                console.warn(`Failed to postMessage to tab ${details.tabId}:`, e.message);
+                delete tabs[details.tabId];
+            }
+        }
     },
     { urls: ["<all_urls>"]}
 );
